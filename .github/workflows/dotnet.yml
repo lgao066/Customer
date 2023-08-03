@@ -31,4 +31,4 @@ jobs:
         sudo apt-get -y update
         sudo apt-get -y install google-chrome-stable
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --no-build --verbosity normal --allowed-ips
