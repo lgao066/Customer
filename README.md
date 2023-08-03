@@ -13,14 +13,18 @@ Note: NO submission of form required - Do not automate reCAPTCH
 https://dev-rhipe-signup.azurewebsites.net/
 
 
-Step 1: Install the required extensions:
-    C# for Visual Studio Code
-    SpecFlow for Visual Studio Code
+## Usage
+Step 1: Install Visual Studio
+	Make sure you have Chrome and Firefox installed
 
-Step 2: Open Visual Studio Code and create a new folder for your SpecFlow project.
+Step 2: Clone the repository
+	https://github.com/lgao066/Customer
 
-Step 3: Initialize a new .NET Core project:
-    Open the terminal in Visual Studio Code (press Ctrl+`or go toView -> Terminal`).
-    Navigate to the newly created project folder using the cd command.
-    Run the following command to create a new .NET Core project:
-        `'dotnet new classlib -n YourSpecFlowProjectName`
+Step 3: Open the project using Visual Studio and open Test Explorer
+
+Step 4: Build solution to find tests
+
+Step 5: Run tests in the Test Explorer
+
+## CI is enabled
+https://github.com/lgao066/Customer/actions
