@@ -23,9 +23,6 @@ jobs:
       with:
         dotnet-version: 7.0.x
     
-    - name: Install Chrome browser
-      uses: igortimoshenko/setup-chrome@v1
-    
     - name: Restore dependencies
       run: dotnet restore
     
