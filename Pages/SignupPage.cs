@@ -1,6 +1,7 @@
 ﻿using Customer.TestData;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.WaitHelpers;
 
 namespace Customer.Pages
 {
@@ -28,6 +29,7 @@ namespace Customer.Pages
         private IWebElement Website_text => driver.FindElement(By.Id("WebUrl"));
         private IWebElement Email_text => driver.FindElement(By.Id("Email"));
         private IWebElement HearAbtRhipe_dropdown => driver.FindElement(By.Id("Source"));
+        private IWebElement HearAbtRhipeOther_text => driver.FindElement(By.Id("OtherSource"));
         private IWebElement Industry_dropdown => driver.FindElement(By.Id("IndustryType"));
         
         // Web Actions
@@ -47,7 +49,12 @@ namespace Customer.Pages
             Website_text.SendKeys(cust.Website);
             Email_text.SendKeys(cust.Email);
             HearAbtRhipe_dropdown.SendKeys(cust.Source);
+            if (cust.Source.ToLower().Trim().Contains("others")) 
+            {
+                HearAbtRhipeOther_text.SendKeys(cust.OtherSource);
+            }
             Industry_dropdown.SendKeys(cust.IndustryType);
+            PageScroll(Industry_dropdown);
         }
 
         #endregion
@@ -66,16 +73,20 @@ namespace Customer.Pages
         // Web Actions
         public void FillDifferentBillingAddressInfo(CustomerData cust)
         {
+
             if (cust.DiffBillingAddr.ToLower().Equals("yes"))
             {
+                WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+                wait.Until(ExpectedConditions.ElementToBeClickable(UseDifferentAddressForBilling_tick));
+
                 UseDifferentAddressForBilling_tick.Click();
-                BillingAddressLine1_text.SendKeys("");
-                BillingAddressLine2_text.SendKeys("");
-                BillingAddressLine3_text.SendKeys("");
-                BillingCity_text.SendKeys("");
-                BillingState_text.SendKeys("");
-                BillingCountry_dropdown.SendKeys("");
-                BillingPostcode_text.SendKeys("");
+                BillingAddressLine1_text.SendKeys(cust.BillingAddrLine1);
+                BillingAddressLine2_text.SendKeys(cust.BillingAddrLine2);
+                BillingAddressLine3_text.SendKeys(cust.BillingAddrLine3);
+                BillingCity_text.SendKeys(cust.BillingCity);
+                BillingState_text.SendKeys(cust.BillingState);
+                BillingCountry_dropdown.SendKeys(cust.BillingCountry);
+                BillingPostcode_text.SendKeys(cust.BillingPostCode);
             }
         }
         #endregion
@@ -97,7 +108,7 @@ namespace Customer.Pages
             AuthorisedSignatoryContactDirectPhone_text.SendKeys(cust.PrimaryDirectPhone);
             AuthorisedSignatoryContactJobTitle_text.SendKeys(cust.PrimaryJobTitle);
             AuthorisedSignatoryContactEmail_text.SendKeys(cust.PrimaryEmail);
-            Thread.Sleep(5000);
+            PageScroll(AuthorisedSignatoryContactEmail_text);
         }
         #endregion
 
@@ -123,11 +134,18 @@ namespace Customer.Pages
         // Web Actions
         public void FillUsageReportContact(CustomerData cust)
         {
-            UsageReportContactFirstName_text.SendKeys("121212");
-            UsageReportContactLastName_text.SendKeys("");
-            UsageReportContactJobTitle_text.SendKeys("");
-            UsageReportContactDirectPhone_text.SendKeys("");
-            UsageReportContactEmail_text.SendKeys("");
+            UsageReportContactFirstName_text.Clear();
+            UsageReportContactLastName_text.Clear();
+            UsageReportContactJobTitle_text.Clear();
+            UsageReportContactDirectPhone_text.Clear();
+            UsageReportContactEmail_text.Clear();
+
+            UsageReportContactFirstName_text.SendKeys(cust.UsageReportFirstName);
+            UsageReportContactLastName_text.SendKeys(cust.UsageReportLastName);
+            UsageReportContactJobTitle_text.SendKeys(cust.UsageReportJobTitle);
+            UsageReportContactDirectPhone_text.SendKeys(cust.UsageReportPhone);
+            UsageReportContactEmail_text.SendKeys(cust.UsageReportEmail);
+            PageScroll(UsageReportContactEmail_text);
         }
         #endregion
 
@@ -142,11 +160,18 @@ namespace Customer.Pages
         // Web Actions
         public void FillSalesCommsContact(CustomerData cust)
         {
-            SalesContactFirstName_text.SendKeys("121212");
-            SalesContactLastName_text.SendKeys("");
-            SalesContactJobTitle_text.SendKeys("");
-            SalesContactDirectPhone_text.SendKeys("");
-            SalesContactEmail_text.SendKeys("");
+            SalesContactFirstName_text.Clear();
+            SalesContactLastName_text.Clear();
+            SalesContactJobTitle_text.Clear();
+            SalesContactDirectPhone_text.Clear();
+            SalesContactEmail_text.Clear();
+
+            SalesContactFirstName_text.SendKeys(cust.SalesFirstName);
+            SalesContactLastName_text.SendKeys(cust.SalesLastName);
+            SalesContactJobTitle_text.SendKeys(cust.SalesJobTitle);
+            SalesContactDirectPhone_text.SendKeys(cust.SalesPhone);
+            SalesContactEmail_text.SendKeys(cust.SalesEmail);
+            PageScroll(SalesContactEmail_text);
         }
         #endregion
 
@@ -161,11 +186,18 @@ namespace Customer.Pages
         // Web Actions
         public void FillAccountsContact(CustomerData cust)
         {
-            AccountsContactFirstName_text.SendKeys("121212");
-            AccountsContactLastName_text.SendKeys("");
-            AccountsContactJobTitle_text.SendKeys("");
-            AccountsContactDirectPhone_text.SendKeys("");
-            AccountsContactEmail_text.SendKeys("");
+            AccountsContactFirstName_text.Clear();
+            AccountsContactLastName_text.Clear();
+            AccountsContactJobTitle_text.Clear();
+            AccountsContactDirectPhone_text.Clear();
+            AccountsContactEmail_text.Clear();
+
+            AccountsContactFirstName_text.SendKeys(cust.AccountsFirstName);
+            AccountsContactLastName_text.SendKeys(cust.AccountsLastName);
+            AccountsContactJobTitle_text.SendKeys(cust.AccountsJobTitle);
+            AccountsContactDirectPhone_text.SendKeys(cust.AccountsPhone);
+            AccountsContactEmail_text.SendKeys(cust.AccountsEmail);
+            PageScroll(AccountsContactEmail_text);
         }
         #endregion
 
@@ -180,11 +212,18 @@ namespace Customer.Pages
         // Web Actions
         public void FillStatementContact(CustomerData cust)
         {
-            StatementContactFirstName_text.SendKeys("121212");
-            StatementContactLastName_text.SendKeys("");
-            StatementContactJobTitle_text.SendKeys("");
-            StatementContactDirectPhone_text.SendKeys("");
-            StatementContactEmail_text.SendKeys("");
+            StatementContactFirstName_text.Clear();
+            StatementContactLastName_text.Clear();
+            StatementContactJobTitle_text.Clear();
+            StatementContactDirectPhone_text.Clear();
+            StatementContactEmail_text.Clear();
+
+            StatementContactFirstName_text.SendKeys(cust.StatementFirstName);
+            StatementContactLastName_text.SendKeys(cust.StatementLastName);
+            StatementContactJobTitle_text.SendKeys(cust.StatementJobTitle);
+            StatementContactDirectPhone_text.SendKeys(cust.StatementPhone);
+            StatementContactEmail_text.SendKeys(cust.StatementEmail);
+            PageScroll(StatementContactEmail_text);
         }
         #endregion
 
@@ -199,16 +238,30 @@ namespace Customer.Pages
         // Web Actions
         public void FillTechnicalContact(CustomerData cust)
         {
-            TechnicalContactFirstName_text.SendKeys("121212");
-            TechnicalContactLastName_text.SendKeys("");
-            TechnicalContactJobTitle_text.SendKeys("");
-            TechnicalContactDirectPhone_text.SendKeys("");
-            TechnicalContactEmail_text.SendKeys("");
+            TechnicalContactFirstName_text.Clear();
+            TechnicalContactLastName_text.Clear();
+            TechnicalContactJobTitle_text.Clear();
+            TechnicalContactDirectPhone_text.Clear();
+            TechnicalContactEmail_text.Clear();
+
+            TechnicalContactFirstName_text.SendKeys(cust.TechnicalFirstName);
+            TechnicalContactLastName_text.SendKeys(cust.TechnicalLastName);
+            TechnicalContactJobTitle_text.SendKeys(cust.TechnicalJobTitle);
+            TechnicalContactDirectPhone_text.SendKeys(cust.TechnicalPhone);
+            TechnicalContactEmail_text.SendKeys(cust.TechnicalEmail);
         }
 
         #endregion
 
         #region Other methods
+
+        private void PageScroll(IWebElement element) 
+        {
+            // Use JavaScriptExecutor to scroll to the element
+            IJavaScriptExecutor jsExecutor = (IJavaScriptExecutor)driver;
+            jsExecutor.ExecuteScript("arguments[0].scrollIntoView(true);", element);
+        }
+
         // Add methods to interact with the sign-up form
         public void SubmitForm()
         {

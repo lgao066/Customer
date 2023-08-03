@@ -18,7 +18,18 @@ namespace Customer.Process
             signupPage.FillGeneralInfo(cust);
             signupPage.FillDifferentBillingAddressInfo(cust);
             signupPage.FillAuthorisedSignatoryContact(cust);
-            // 
+            if (!cust.UseSameContact.ToLower().Trim().Equals("yes")) 
+            {
+                signupPage.TickUseOtherContact();
+                signupPage.FillUsageReportContact(cust);
+                signupPage.FillSalesCommsContact(cust);
+                signupPage.FillAccountsContact(cust);
+                signupPage.FillStatementContact(cust);
+                signupPage.FillTechnicalContact(cust);
+            }
+
+            // For testing only
+            Thread.Sleep(5000);
         }
     }
 }

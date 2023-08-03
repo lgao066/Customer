@@ -1,10 +1,9 @@
-﻿using System;
-using Customer.Process;
+﻿using Customer.Process;
 using Customer.TestData;
-using Newtonsoft.Json.Bson;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Firefox;
 using TechTalk.SpecFlow;
 
 namespace Customer.Steps
@@ -19,8 +18,21 @@ namespace Customer.Steps
         [BeforeScenario]
         public void BeforeScenario()
         {
-            // Set up the Chrome driver
-            driver = new ChromeDriver();
+            var browser = GetBrowserFromTags();
+
+            switch (browser) 
+            {
+                case "firefox":
+                    // Set up the Firefox driver
+                    driver = new FirefoxDriver();
+                    break;
+                case "chrome":
+                default:
+                    // Set up the Chrome driver
+                    driver = new ChromeDriver();
+                    break;
+            }
+
             driver.Manage().Window.Maximize();
         }
 
@@ -94,8 +106,20 @@ namespace Customer.Steps
             cust.Source = table.Rows[13]["Value"];
             cust.OtherSource = table.Rows[14]["Value"];
             cust.IndustryType = table.Rows[15]["Value"];
+
             // Billing address
             cust.DiffBillingAddr = table.Rows[16]["Value"];
+            if (cust.DiffBillingAddr.ToLower().Trim().Equals("yes")) 
+            {
+                // Use random data generated run-time
+                cust.BillingAddrLine1 = RandomDataGenerator.GenerateAddressLine1();
+                cust.BillingAddrLine2 = RandomDataGenerator.GenerateAddressLine2();
+                cust.BillingAddrLine3 = RandomDataGenerator.GenerateAddressLine3();
+                cust.BillingCity = RandomDataGenerator.GenerateCity();
+                cust.BillingState = RandomDataGenerator.GenerateState();
+                cust.BillingCountry = "Australia";
+                cust.BillingPostCode = RandomDataGenerator.GeneratePostcode();
+            }
             // Primary contact
             cust.PrimaryContactFirstName = table.Rows[17]["Value"];
             cust.PrimaryContactLastName = table.Rows[18]["Value"];
@@ -104,8 +128,57 @@ namespace Customer.Steps
             cust.PrimaryEmail = table.Rows[21]["Value"];
             // Other contact
             cust.UseSameContact = table.Rows[22]["Value"];
+            if (cust.UseSameContact.ToLower().Trim().Equals("no"))
+            {
+                // Use random data generated run-time
+                cust.UsageReportFirstName = RandomDataGenerator.GenerateFirstName();
+                cust.UsageReportLastName = RandomDataGenerator.GenerateLastName();
+                cust.UsageReportPhone = RandomDataGenerator.GeneratePhoneNumber();
+                cust.UsageReportJobTitle = RandomDataGenerator.GenerateJobTitle();
+                cust.UsageReportEmail = RandomDataGenerator.GenerateEmail();
 
+                cust.SalesFirstName = RandomDataGenerator.GenerateFirstName();
+                cust.SalesLastName = RandomDataGenerator.GenerateLastName();
+                cust.SalesPhone = RandomDataGenerator.GeneratePhoneNumber();
+                cust.SalesJobTitle = RandomDataGenerator.GenerateJobTitle();
+                cust.SalesEmail = RandomDataGenerator.GenerateEmail();
 
+                cust.AccountsFirstName = RandomDataGenerator.GenerateFirstName();
+                cust.AccountsLastName = RandomDataGenerator.GenerateLastName();
+                cust.AccountsPhone = RandomDataGenerator.GeneratePhoneNumber();
+                cust.AccountsJobTitle = RandomDataGenerator.GenerateJobTitle();
+                cust.AccountsEmail = RandomDataGenerator.GenerateEmail();
+
+                cust.StatementFirstName = RandomDataGenerator.GenerateFirstName();
+                cust.StatementLastName = RandomDataGenerator.GenerateLastName();
+                cust.StatementPhone = RandomDataGenerator.GeneratePhoneNumber();
+                cust.StatementJobTitle = RandomDataGenerator.GenerateJobTitle();
+                cust.StatementEmail = RandomDataGenerator.GenerateEmail();
+
+                cust.TechnicalFirstName = RandomDataGenerator.GenerateFirstName();
+                cust.TechnicalLastName = RandomDataGenerator.GenerateLastName();
+                cust.TechnicalPhone = RandomDataGenerator.GeneratePhoneNumber();
+                cust.TechnicalJobTitle = RandomDataGenerator.GenerateJobTitle();
+                cust.TechnicalEmail = RandomDataGenerator.GenerateEmail();
+            }
+
+        }
+
+        private string GetBrowserFromTags()
+        {
+#pragma warning disable CS0618 // Type or member is obsolete
+            var tags = ScenarioContext.Current.ScenarioInfo.Tags;
+#pragma warning restore CS0618 // Type or member is obsolete
+            if (tags.Contains("chrome"))
+            {
+                return "chrome";
+            }
+            else if (tags.Contains("firefox"))
+            {
+                return "firefox";
+            }
+            // Add more conditions for other browsers if needed.
+            return "chrome";
         }
     }
 }
