@@ -5,3 +5,4 @@ obj/
 
 # Ignore log files
 *.log
+*.feature.cs
