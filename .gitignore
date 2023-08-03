@@ -1,0 +1,7 @@
+# Ignore bin and obj folders
+bin/
+obj/
+.vs/
+
+# Ignore log files
+*.log
