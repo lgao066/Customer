@@ -1,8 +1,13 @@
 # Ignore bin and obj folders
 bin/
 obj/
-.vs\
+.vs/
 
 # Ignore log files
 *.log
 *.feature.cs
+*.manifest
+*.suo
+*.lock
+*.vsidx
+*.testlog
